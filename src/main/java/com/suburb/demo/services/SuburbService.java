@@ -51,7 +51,11 @@ public class SuburbService {
                 .map(postcodeSuburb -> {
                     int characterCount = postcodeSuburb.getValue().stream()
                             .reduce(0, (total, suburb) -> total + suburb.getSuburb().length(), Integer::sum);
-                    return new PostcodeWithSuburbs(postcodeSuburb.getKey(), characterCount, postcodeSuburb.getValue());
+                    return new PostcodeWithSuburbs(
+                            postcodeSuburb.getKey(),
+                            characterCount,
+                            postcodeSuburb.getValue().stream().map(s -> s.getSuburb()).toList()
+                    );
                 })
                 .toList();
     }
@@ -61,6 +65,6 @@ public class SuburbService {
     public static class PostcodeWithSuburbs {
         private Integer postcode;
         private Integer charCount;
-        private List<Suburb> suburbs;
+        private List<String> suburbs;
     }
 }
